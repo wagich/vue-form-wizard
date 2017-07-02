@@ -1,68 +1,46 @@
 <template>
   <div>
-    <button @click="tabs.shift()">Remove one tab</button>
-    <button @click="tabs.push('testt')">Add one tab</button>
-    <form-wizard @on-complete="onComplete"
-                 :hide-buttons="false"
-                 shape="square"
-                 color="gray"
-                 @on-loading="setLoading"
-                 @on-error="setError"
-                 class="card" ref="wizard">
-      <tab-content title="1" icon="ti-settings" :before-change="validateAsync">
-        First tab
+    <button @click="removeItem()"> Remove first item</button>
+    <button @click="removeEndItem()"> Remove end item</button>
+    <button @click="removeCurrentItem()"> Remove current item</button>
+    <button @click="addEndItem()"> Add item at end</button>
+    <button @click="addFrontItem()"> Add item at front</button>
+    <form-wizard ref="wizard">
+      <tab-content v-for="item in arr" :title="item" :key="item"
+                   icon="fa fa-user">
+        My second tab contentaaaa
       </tab-content>
-      <tab-content title="2" icon="ti-settings" :before-change="validateAsync">
-        Second tab
-      </tab-content>
-      <tab-content title="3" icon="ti-settings">
-        Third tab
-      </tab-content>
-      <div class="loader" v-if="loadingWizard"></div>
-      <div v-if="error">
-        {{error}}
-      </div>
     </form-wizard>
   </div>
 </template>
 
 <script>
-
+  import 'font-awesome/css/font-awesome.css'
   export default {
     name: 'app',
     data () {
       return {
-        loadingWizard: false,
-        error: null,
-        count: 0,
-        tabs: ['test','test2','test3']
+        arr: ['no', 'tests', 'go', 'undone'],
+        index: 1
       }
     },
     methods: {
-      onComplete () {
-        alert('Yay!')
+      removeItem () {
+        this.arr.shift()
       },
-      setLoading (value) {
-        this.loadingWizard = value
+      removeEndItem () {
+        this.arr.pop()
       },
-      setError (error) {
-        this.error = error
+      removeCurrentItem () {
+        this.arr.splice(this.$refs.wizard.activeTabIndex, 1)
       },
-      validateAsync () {
-        //simulating an error for the first time and a success for the second time
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            if (this.count % 2 === 0) {
-              reject('Some custom error')
-            } else {
-              resolve(true)
-            }
-            this.count ++
-          }, 100)
-        })
+      addEndItem () {
+        this.arr.push('added' + this.index);
+        this.index += 1;
       },
-      validate () {
-        return true
+      addFrontItem () {
+        this.arr.unshift('added' + this.index);
+        this.index += 1;
       }
     }
   }
@@ -70,6 +48,7 @@
 <style>
   @import "loader.css";
 </style>
+<style src="../src/assets/wizard.scss" lang="scss"></style>
 <style lang="scss">
   $border-radius-extreme: 6px !default;
   $white-color: white;

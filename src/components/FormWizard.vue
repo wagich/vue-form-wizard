@@ -9,30 +9,30 @@
     <div class="wizard-navigation">
       <div class="wizard-progress-with-circle">
         <div class="wizard-progress-bar"
-             :style="progressBarStyle"></div>
+             v-bind:style="progressBarStyle"></div>
       </div>
       <ul class="wizard-nav wizard-nav-pills">
-        <li v-for="(tab, index) in tabs" :class="{active:tab.active}">
-          <a href="" @click.prevent="navigateToTab(index)">
+        <li v-for="(tab, index) in tabs" v-bind:class="{active:tab.active}">
+          <a href="" v-on:click="navigateToTab(index)">
             <div class="wizard-icon-circle"
-                 :class="{checked:isChecked(index),square_shape:isStepSquare, tab_shape:isTabShape}"
-                 :style="[isChecked(index)? stepCheckedStyle : {}, tab.validationError ? errorStyle : {}]">
+                 v-bind:class="{checked:isChecked(index),square_shape:isStepSquare, tab_shape:isTabShape}"
+                 v-bind:style="[isChecked(index)? stepCheckedStyle : {}, tab.validationError ? errorStyle : {}]">
 
-              <transition :name="transition" mode="out-in">
+              <transition v-bind:name="transition" mode="out-in">
                 <div v-if="tab.active" class="wizard-icon-container"
-                     :class="{square_shape:isStepSquare, tab_shape:isTabShape}"
-                     :style="[tab.active ? iconActiveStyle: {}, tab.validationError ? errorStyle : {}]">
-                  <i v-if="tab.icon" :class="tab.icon" class="wizard-icon"></i>
-                  <i v-else class="wizard-icon">{{index + 1}}</i>
+                     v-bind:class="{square_shape:isStepSquare, tab_shape:isTabShape}"
+                     v-bind:style="[tab.active ? iconActiveStyle: {}, tab.validationError ? errorStyle : {}]">
+                  <i v-if="tab.icon" v-bind:class="tab.icon" class="wizard-icon"></i>
+                  <i v-else class="wizard-icon">{{incrementedIndex(index)}} </i>
                 </div>
-                <i v-if="!tab.active && tab.icon" :class="tab.icon" class="wizard-icon"></i>
-                <i v-if="!tab.active && !tab.icon" class="wizard-icon">{{index + 1}}</i>
+                <i v-if="!tab.active && tab.icon" v-bind:class="tab.icon" class="wizard-icon"></i>
+                <i v-if="!tab.active && !tab.icon" class="wizard-icon">{{ incrementedIndex(index) }}</i>
               </transition>
 
             </div>
             <span class="stepTitle"
-                  :class="{active:tab.active, has_error:tab.validationError}"
-                  :style="tab.active ? stepTitleStyle : {}">
+                  v-bind:class="{active:tab.active, has_error:tab.validationError}"
+                  v-bind:style="tab.active ? stepTitleStyle : {}">
               {{tab.title}}
             </span>
 
@@ -49,7 +49,7 @@
       <template>
         <span @click="prevTab" v-if="displayPrevButton" class="wizard-footer-left">
           <slot name="prev">
-            <button type="button" class="wizard-btn btn-default wizard-btn-wd" :style="fillButtonStyle"
+            <button type="button" class="wizard-btn btn-default wizard-btn-wd" v-bind:style="fillButtonStyle"
                     :disabled="loading">
               {{backButtonText}}
             </button>
@@ -58,9 +58,9 @@
       </template>
 
       <template>
-         <span @click="finish" class="wizard-footer-right" v-if="isLastStep">
+         <span v-on:click="finish" class="wizard-footer-right" v-if="isLastStep">
            <slot name="finish">
-             <button type="button" class="wizard-btn btn-fill wizard-btn-wd btn-next" :style="fillButtonStyle">
+             <button type="button" class="wizard-btn btn-fill wizard-btn-wd btn-next" v-bind:style="fillButtonStyle">
               {{finishButtonText}}
             </button>
           </slot>
@@ -68,9 +68,9 @@
       </template>
 
       <template>
-        <span @click="nextTab" class="wizard-footer-right" v-if="!isLastStep">
+        <span v-on:click="nextTab" class="wizard-footer-right" v-if="!isLastStep">
          <slot name="next">
-           <button type="button" class="wizard-btn btn-fill wizard-btn-wd btn-next" :style="fillButtonStyle"
+           <button type="button" class="wizard-btn btn-fill wizard-btn-wd btn-next" v-bind:style="fillButtonStyle"
                    :disabled="loading">
             {{nextButtonText}}
            </button>
@@ -220,6 +220,9 @@
     methods: {
       isChecked (index) {
         return index <= this.maxStep
+      },
+      incrementedIndex(index){
+        return index + 1
       },
       navigateToTab (index) {
         let validate = index > this.activeTabIndex

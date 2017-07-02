@@ -1,10 +1,9 @@
-module.exports = {
-
-  FormWizard: require('./components/FormWizard.vue'),
-  TabContent: require('./components/TabContent.vue'),
+import FormWizard from './components/FormWizard.js'
+import TabContent from './components/TabContent.js'
+export default {
 
   install (Vue) {
-    Vue.component('form-wizard', module.exports.FormWizard)
-    Vue.component('tab-content', module.exports.TabContent)
+    Vue.component('form-wizard', FormWizard)
+    Vue.component('tab-content', TabContent)
   }
 }

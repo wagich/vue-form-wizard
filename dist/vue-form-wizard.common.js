@@ -3,11 +3,7 @@
  * (c) 2017-present egoist <0x142857@gmail.com>
  * Released under the MIT License.
  */
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.vueFormWizard = factory());
-}(this, (function () { 'use strict';
+'use strict';
 
 var FormWizard = {
   props: {
@@ -612,6 +608,4 @@ var index = {
   }
 };
 
-return index;
-
-})));
+module.exports = index;
