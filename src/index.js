@@ -1,12 +1,10 @@
 import FormWizard from './components/FormWizard.vue'
 import TabContent from './components/TabContent.vue'
-import WizardButton from './components/WizardButton.vue'
 import WizardStep from './components/WizardStep.vue'
 const VueFormWizard = {
   install (Vue) {
     Vue.component('form-wizard', FormWizard)
     Vue.component('tab-content', TabContent)
-    Vue.component('wizard-button', WizardButton)
     Vue.component('wizard-step', WizardStep)
   }
 }
